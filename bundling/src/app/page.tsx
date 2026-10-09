@@ -4,6 +4,8 @@ import { useState } from "react";
 import { trackMetaEvent } from "./MetaPixel";
 
 const CHECKOUT_URL = "https://maxautocare.orderonline.id/paket-bundling-3-in-1";
+const SHOPEE_URL = "https://s.shopee.co.id/4fwqmcnQic";
+
 const products = [
   {
     number: "01",
@@ -17,7 +19,8 @@ const products = [
     number: "02",
     name: "Tire Polish",
     subtitle: "Semir Ban",
-    description: "Bantu menjaga tampilan ban agar terlihat lebih bersih dan terawat.",
+    description:
+      "Bantu menjaga tampilan ban agar terlihat lebih bersih dan terawat.",
     image: "/tirePolish.png",
   },
   {
@@ -66,43 +69,50 @@ const faqs = [
   },
 ];
 
+type OrderButtonProps = {
+  platform?: "orderonline" | "shopee";
+  className?: string;
+  children?: React.ReactNode;
+};
 
 function OrderButton({
-  children = "ORDER SEKARANG",
+  platform = "orderonline",
   className = "",
-}: {
-  children?: React.ReactNode;
-  className?: string;
-}) {
-  const checkoutReady = CHECKOUT_URL.trim().length > 0;
+  children,
+}: OrderButtonProps) {
+  const isShopee = platform === "shopee";
+
+  const handleOrder = () => {
+    const url = isShopee ? SHOPEE_URL : CHECKOUT_URL;
+
+    if (!url) {
+      alert("Link pemesanan belum diatur.");
+      return;
+    }
+
+    if (!isShopee) {
+      trackMetaEvent("InitiateCheckout", {
+        content_name: "MAX Auto Care Bundle",
+        currency: "IDR",
+        value: 99000,
+      });
+    }
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
   return (
-    <a
-      href={checkoutReady ? CHECKOUT_URL : "#promo"}
-      target={checkoutReady ? "_blank" : undefined}
-      rel={checkoutReady ? "noopener noreferrer" : undefined}
-      onClick={(event) => {
-        if (!checkoutReady) {
-          event.preventDefault();
-
-          document
-            .getElementById("promo")
-            ?.scrollIntoView({ behavior: "smooth" });
-
-          return;
-        }
-
-        trackMetaEvent("InitiateCheckout", {
-          content_name: "MAX Auto Care Bundle",
-          currency: "IDR",
-          value: 99000,
-        });
-      }}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-bold text-white transition duration-300 hover:bg-red-500 ${className}`}
+    <button
+      type="button"
+      onClick={handleOrder}
+      className={`flex items-center justify-center gap-2 rounded-xl px-6 py-4 font-bold text-white transition ${
+        isShopee
+          ? "bg-[#EE4D2D] hover:bg-[#D94326]"
+          : "bg-red-600 hover:bg-red-700"
+      } ${className}`}
     >
-      {children}
-      <span aria-hidden="true">↗</span>
-    </a>
+      {children ?? (isShopee ? "Beli di Shopee" : "Order Sekarang")}
+    </button>
   );
 }
 
@@ -159,6 +169,10 @@ export default function Home() {
                 DAPATKAN PROMO
               </OrderButton>
 
+              <OrderButton platform="shopee" className="w-full sm:w-auto">
+                BELI DI SHOPEE
+              </OrderButton>
+
               <a
                 href="#produk"
                 className="inline-flex items-center justify-center rounded-xl border border-white/15 px-6 py-4 text-sm font-bold transition hover:border-white/40"
@@ -191,19 +205,15 @@ export default function Home() {
 
       {/* PROMO BANNER */}
       <section className="bg-red-600">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-5 px-5 py-6 sm:flex-row sm:items-center lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-5 px-5 py-6 sm:flex-row sm:items-center lg:px-8">
           <div>
-            <p className="text-xs font-bold tracking-[0.25em] text-red-100">
+            <p className="text-xs text-center font-bold tracking-[0.25em] text-red-100">
               SPECIAL BUNDLE OFFER
             </p>
             <h2 className="mt-2 text-2xl font-black sm:text-3xl">
               Tiga Produk, Satu Paket!
             </h2>
           </div>
-
-          <OrderButton className="bg-black hover:bg-zinc-800">
-            PESAN SEKARANG
-          </OrderButton>
         </div>
       </section>
 
@@ -342,6 +352,9 @@ export default function Home() {
               </p>
 
               <OrderButton className="mt-6 w-full">ORDER SEKARANG</OrderButton>
+              <OrderButton platform="shopee" className="mt-6 w-full">
+                BELI DI SHOPEE
+              </OrderButton>
 
               <p className="mt-4 text-xs leading-5 text-zinc-500">
                 Detail pembayaran dan pengiriman tersedia di halaman checkout.
