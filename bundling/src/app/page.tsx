@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackMetaEvent } from "./MetaPixel";
 
 const CHECKOUT_URL = "https://maxautocare.orderonline.id/paket-bundling-3-in-1";
 const products = [
@@ -65,6 +66,7 @@ const faqs = [
   },
 ];
 
+
 function OrderButton({
   children = "ORDER SEKARANG",
   className = "",
@@ -82,10 +84,19 @@ function OrderButton({
       onClick={(event) => {
         if (!checkoutReady) {
           event.preventDefault();
+
           document
             .getElementById("promo")
             ?.scrollIntoView({ behavior: "smooth" });
+
+          return;
         }
+
+        trackMetaEvent("InitiateCheckout", {
+          content_name: "MAX Auto Care Bundle",
+          currency: "IDR",
+          value: 99000,
+        });
       }}
       className={`inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-bold text-white transition duration-300 hover:bg-red-500 ${className}`}
     >
