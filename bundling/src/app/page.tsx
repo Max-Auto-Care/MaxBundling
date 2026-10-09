@@ -402,7 +402,7 @@ export default function Home() {
           </p>
 
           <p className="text-xs text-zinc-500">
-            © {new Date().getFullYear()} MAX Auto Care. All rights reserved.
+            © 2026 MAX Auto Care. All rights reserved.
           </p>
         </div>
       </footer>
