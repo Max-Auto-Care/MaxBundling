@@ -4,7 +4,7 @@ import { useState } from "react";
 import { trackMetaEvent } from "./MetaPixel";
 
 const CHECKOUT_URL = "https://maxautocare.orderonline.id/paket-bundling-3-in-1";
-const SHOPEE_URL = "https://s.shopee.co.id/4fwqmcnQic";
+const SHOPEE_URL = "https://shopee.co.id/product/136980590/51319160223/";
 
 const products = [
   {
