@@ -367,7 +367,7 @@ export default function Home() {
               </p>
 
               <div className="mt-5 flex flex-wrap">
-                <CountdownTimer placement="bottom" />
+                <CountdownTimer placement="top" />
               </div>
 
               <OrderButton className="mt-6 w-full">ORDER SEKARANG</OrderButton>
@@ -452,6 +452,7 @@ export default function Home() {
           </OrderButton>
         </div>
       </div>
+      <CountdownTimer placement="bottom" />
     </main>
   );
 }
