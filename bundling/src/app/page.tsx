@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { trackMetaEvent } from "./MetaPixel";
+import CountdownTimer from "./CountdownTimer";
 
 const CHECKOUT_URL = "https://maxautocare.orderonline.id/paket-bundling-3-in-1";
 const SHOPEE_URL = "https://shopee.co.id/product/136980590/51319160223/";
@@ -172,6 +173,10 @@ export default function Home() {
               <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-blue-300">
                 ✓ Gratis Ongkir Jabodetabek
               </span>
+            </div>
+
+            <div className="mt-5 flex flex-wrap">
+              <CountdownTimer placement="top" />
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -360,6 +365,10 @@ export default function Home() {
               <p className="mt-4 text-sm leading-6 text-zinc-400">
                 Harga promo paket bundling.
               </p>
+
+              <div className="mt-5 flex flex-wrap">
+                <CountdownTimer placement="top" />
+              </div>
 
               <OrderButton className="mt-6 w-full">ORDER SEKARANG</OrderButton>
               <OrderButton platform="shopee" className="mt-6 w-full">
