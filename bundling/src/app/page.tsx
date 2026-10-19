@@ -160,13 +160,23 @@ export default function Home() {
             </h1>
 
             <p className="mt-6 max-w-lg text-base leading-7 text-zinc-400 sm:text-lg">
-              Rawat body, kaca, dan interior mobil dengan paket perawatan
-              praktis dari MAX Auto Care.
+              Rawat body, ban, dan interior mobil dengan paket perawatan praktis
+              dari MAX Auto Care.
             </p>
+
+            <div className="mt-5 flex flex-wrap gap-2 text-sm font-semibold">
+              <span className="inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-2 text-green-400">
+                ✓ Bisa Bayar COD
+              </span>
+
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-blue-300">
+                ✓ Gratis Ongkir Jabodetabek
+              </span>
+            </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <OrderButton className="w-full sm:w-auto">
-                DAPATKAN PROMO
+                ORDER SEKARANG
               </OrderButton>
 
               <OrderButton platform="shopee" className="w-full sm:w-auto">
