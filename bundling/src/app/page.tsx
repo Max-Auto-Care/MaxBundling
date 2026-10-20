@@ -82,11 +82,11 @@ function OrderButton({
   children,
 }: OrderButtonProps) {
   const isShopee = platform === "shopee";
+  const url = isShopee ? SHOPEE_URL : CHECKOUT_URL;
 
-  const handleOrder = () => {
-    const url = isShopee ? SHOPEE_URL : CHECKOUT_URL;
-
+  const handleOrder = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (!url) {
+      event.preventDefault();
       alert("Link pemesanan belum diatur.");
       return;
     }
@@ -98,22 +98,22 @@ function OrderButton({
         value: 99000,
       });
     }
-
-    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
-    <button
-      type="button"
+    <a
+      href={url || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
       onClick={handleOrder}
       className={`flex items-center justify-center gap-2 rounded-xl px-6 py-4 font-bold text-white transition ${
         isShopee
           ? "bg-[#EE4D2D] hover:bg-[#D94326]"
           : "bg-red-600 hover:bg-red-700"
-      } ${className}`}
+      } ${!isShopee ? "oo-link" : ""} ${className}`}
     >
       {children ?? (isShopee ? "Beli di Shopee" : "Order Sekarang")}
-    </button>
+    </a>
   );
 }
 
@@ -452,7 +452,6 @@ export default function Home() {
           </OrderButton>
         </div>
       </div>
-      <CountdownTimer placement="bottom" />
     </main>
   );
 }

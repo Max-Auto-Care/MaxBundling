@@ -15,7 +15,9 @@ export function trackMetaEvent(
   eventName: string,
   parameters?: Record<string, string | number | boolean>,
 ) {
-  if (typeof window !== "undefined" && window.fbq) {
+  if (typeof window === "undefined") return;
+
+  if (typeof window.fbq === "function") {
     window.fbq("track", eventName, parameters);
   }
 }

@@ -1,10 +1,13 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
+import { trackMetaEvent } from "./MetaPixel";
 
 const DURATION_SECONDS = 5 * 60 * 60;
 const STORAGE_KEY = "max_bundle_promo_remaining_v1";
-const CHECKOUT_URL = "https://maxbundling.maxautocare.biz.id/";
+const CHECKOUT_URL =
+  "https://maxautocare.orderonline.id/paket-bundling-3-in-1";
 
 type CountdownTimerProps = {
   placement?: "top" | "bottom";
@@ -17,18 +20,14 @@ export default function CountdownTimer({
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
-    let secondsLeft =
-      saved === null
-        ? DURATION_SECONDS
-        : Math.max(0, Math.min(DURATION_SECONDS, Number(saved)));
+    const parsed = saved === null ? DURATION_SECONDS : Number(saved);
 
-    if (!Number.isFinite(secondsLeft)) {
-      secondsLeft = DURATION_SECONDS;
-    }
+    let secondsLeft = Number.isFinite(parsed)
+      ? Math.max(0, Math.min(DURATION_SECONDS, parsed))
+      : DURATION_SECONDS;
 
     setRemaining(secondsLeft);
 
-    // Countdown hanya berjalan selama halaman aktif.
     const interval = window.setInterval(() => {
       secondsLeft = Math.max(0, secondsLeft - 1);
       localStorage.setItem(STORAGE_KEY, String(secondsLeft));
@@ -44,6 +43,15 @@ export default function CountdownTimer({
 
   const format = (n: number) => String(n).padStart(2, "0");
   const timer = `${format(hours)}:${format(minutes)}:${format(seconds)}`;
+
+  const handleCheckout = () => {
+    trackMetaEvent("InitiateCheckout", {
+      content_name: "MAX Auto Care Bundle",
+      content_type: "product",
+      currency: "IDR",
+      value: 99000,
+    });
+  };
 
   if (placement === "bottom") {
     return (
@@ -63,7 +71,8 @@ export default function CountdownTimer({
             href={CHECKOUT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 rounded-lg bg-red-600 px-4 py-3 text-center text-xs font-extrabold text-white hover:bg-red-500 sm:px-6 sm:text-sm"
+            onClick={handleCheckout}
+            className="oo-link shrink-0 rounded-lg bg-red-600 px-4 py-3 text-center text-xs font-extrabold text-white hover:bg-red-500 sm:px-6 sm:text-sm"
           >
             ORDER SEKARANG
           </a>
