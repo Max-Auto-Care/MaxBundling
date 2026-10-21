@@ -16,7 +16,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Max Auto Care | Paket Perawatan Mobil",
-  description: "Temukan paket perawatan mobil MAX Auto Care. Lihat penawaran bundling dan pesan melalui checkout online.",
+  description:
+    "Temukan paket perawatan mobil MAX Auto Care. Lihat penawaran bundling dan pesan melalui checkout online.",
+  icons: "/icon.png",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -25,7 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col"><MetaPixel/><OrderOnlineTracker />{children}</body>
+      <body className="min-h-full flex flex-col">
+        <MetaPixel />
+        <OrderOnlineTracker />
+        {children}
+      </body>
     </html>
   );
 }
